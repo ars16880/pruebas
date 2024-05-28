@@ -1,0 +1,105 @@
+class Tarea:
+    def __init__(self, descripcion):
+        """inicia una nueva tarea describiéndola y la establece como pendiente"""
+        self.descripcion = descripcion
+        self.completada = False
+
+    def marcar_como_completada(self):
+        """Establece la tarea como completada"""
+        self.completada = True
+
+    def __str__(self):
+        """devuelve una cadena que muestra la tarea y su estado"""
+        estado = 'Completada' if self.completada else 'Pendiente'
+        return f'{self.descripcion} [{estado}]'
+    
+    class ListaDeTareas:
+    def __init__(self):
+        """inicia una lista de tareas vacía"""
+        self.tareas = []
+
+    def agregar_tarea(self, descripcion):
+        """incorpora una nueva tarea a la lista"""
+        tarea = Tarea(descripcion)
+        self.tareas.append(tarea)
+
+    def eliminar_tarea(self, indice):
+        """suprime una tarea de la lista dado su índice"""
+        if 0 <= indice < len(self.tareas):
+            del self.tareas[indice]
+    else:
+        raise IndexError("Indice fuera de rango")         
+
+    def marcar_tarea_como_completada(self, indice):
+        """establece una tarea esecífica como completa dado su índice"""
+        if 0 <= indice < len(self.tareas):
+            self.tareas[indice].marcar_como_completada()
+        else: 
+             raise  IndexError("Indice fuera de rango")
+    
+    def mostrar_tareas(self):
+       """muestra todas las tareas de la lista con su estado"""
+       
+        if not self.tareas:
+            print('No hay tareas en la lista.')
+        else:
+            for indice, tarea in enumerate(self.tareas):
+                print(f'{indice}. {tarea}')
+
+    def mostrar_menu():
+        """muestra el menú de opciones disponibles para el usuario"""
+        print("\nOpciones:")
+        print("1. Agregar una nueva tarea")
+        print("2. Marcar una tarea como completada")
+        print("3. Mostrar todas las tareas")
+        print("4. Eliminar una tarea")
+        print("5. Salir")
+
+
+def main():
+    """Es una función principal que ejecuta el menú para gesionar"""
+    lista_de_tareas = ListaDeTareas()
+
+while True:
+        mostrar_menu()
+        opcion = input("Escoge una opción: ")
+
+        if opcion == '1':
+            descripcion = input("Incorpora la descripción de la nueva tarea: ")
+            lista_de_tareas.agregar_tarea(descripcion)
+            print("Tarea incorporada con éxito.")
+        
+        elif opcion == '2':
+            try:
+                indice = int(input("Ingresa el índice de la tarea a marcar como completada: "))
+                lista_de_tareas.marcar_tarea_como_completada(indice)
+                print("Tarea marcada como completada.")
+            except ValueError:
+                print("Por favor, ingresa un número válido.")
+            except IndexError:
+                print("Índice fuera de rango. Pruebe otra vez.")
+        
+        elif opcion == '3':
+            print("\nLista de tareas:")
+            lista_de_tareas.mostrar_tareas()
+        
+        elif opcion == '4':
+            try:
+                indice = int(input("Ingresa el índice de la tarea a eliminar: "))
+                lista_de_tareas.eliminar_tarea(indice)
+                print("Tarea eliminada con éxito.")
+            except ValueError:
+                print("Prueba con un número válido.")
+            except IndexError:
+                print("Índice fuera de rango. Prueba otra vez.")
+        
+        elif opcion == '5':
+            print("De este modo abandona el programa. ¡Hasta pronto!")
+            break
+        
+        else:
+            print("Opción no válida. Por favor, sigue probando.")
+
+
+if __name__ == "__main__":
+    main()
